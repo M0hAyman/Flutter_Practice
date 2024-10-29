@@ -26,7 +26,7 @@ class _QuizState extends State<Quiz> {
 
   //final List<String> selectedAnswers = [];
   //removed final because list will be reset
-  List<String> selectedAnswers = [];
+  List<String> _selectedAnswers = []; //NewFinal: private property
   String currScreen = 'start-screen';
 
   //@override
@@ -51,14 +51,21 @@ class _QuizState extends State<Quiz> {
   }
 
   void chooseAnswer(String answer) {
-    selectedAnswers.add(answer);
+    _selectedAnswers.add(answer);
 
-    if (selectedAnswers.length == questions.length) {
+    if (_selectedAnswers.length == questions.length) {
       setState(() {
         //selectedAnswers = [];
         currScreen = 'results-screen';
       });
     }
+  }
+
+  void restartQuiz() {
+    setState(() {
+      _selectedAnswers = [];
+      currScreen = 'questions-screen';
+    });
   }
 
   @override
@@ -79,7 +86,8 @@ class _QuizState extends State<Quiz> {
     if (currScreen == 'results-screen') {
       //We got rid of const ResultsScreen() because we need to pass the selectedAnswers which is a variable that dynamically changes
       screenWidget = ResultsScreen(
-        chosenAnswers: selectedAnswers,
+        chosenAnswers: _selectedAnswers,
+        onRestart: restartQuiz,
       );
     }
 

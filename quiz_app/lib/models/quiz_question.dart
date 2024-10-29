@@ -9,7 +9,9 @@ class QuizQuestion {
     //this.answerIndex,
   );
 
-  List<String> getShuffledAnswers() {
+  // List<String> getShuffledAnswers() {
+  List<String> get shuffledAnswers {
+    //NewFinal: getters introduced
     final shuffledList = List.of(answers);
     shuffledList.shuffle(); //change the list in place
 

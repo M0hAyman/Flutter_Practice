@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/styled_text.dart';
 
 class QuestionsSummary extends StatelessWidget {
   const QuestionsSummary({
@@ -11,33 +12,67 @@ class QuestionsSummary extends StatelessWidget {
   @override
   Widget build(context) {
     return SizedBox(
-      height: 300,
+      height: 400,
       child: SingleChildScrollView(
         child: Column(
           children: summaryData.map(
             (data) {
-              return Row(
-                children: [
-                  Text((data['question_index']).toString(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      )),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text(data['question'] as String),
-                        const SizedBox(
-                          height: 5,
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: CircleAvatar(
+                        radius: 15,
+                        backgroundColor:
+                            data['correct_answer'] == data['user_answer']
+                                ? const Color.fromARGB(255, 1, 112, 163)
+                                : const Color.fromARGB(255, 166, 0, 141),
+                        child: StyledText(
+                          (data['question_index']).toString(),
+                          15,
+                          Colors.black,
+                          true,
+                          true,
                         ),
-                        Text(
-                            'Your Answer: ${data['user_answer'] ?? 'No answer provided'}'),
-                        Text(
-                            'Correct Answer: ${data['correct_answer'] ?? 'No answer provided'}'),
-                      ],
+                      ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          StyledText(
+                            (data['question'] as String),
+                            14,
+                            Colors.white,
+                            true,
+                            false,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          StyledText(
+                            '${data['user_answer'] ?? 'No answer provided'}',
+                            13,
+                            const Color.fromARGB(255, 166, 0, 141),
+                            true,
+                            false,
+                          ),
+                          StyledText(
+                            '${data['correct_answer'] ?? 'No answer provided'}',
+                            13,
+                            const Color.fromARGB(255, 1, 112, 163),
+                            true,
+                            false,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
           ).toList(), //Converts Iterable object to list object
